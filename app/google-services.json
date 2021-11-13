@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "285124847545",
+    "project_id": "howmanyseats",
+    "storage_bucket": "howmanyseats.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285124847545:android:b78e8cf8595cd746727868",
+        "android_client_info": {
+          "package_name": "com.example.howmanyseats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "285124847545-5219g3iqe91bs7q1g36me52b6d7hdboo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHPeA5b04lbyA2fMkOiRRSOmpbwloiyh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "285124847545-5219g3iqe91bs7q1g36me52b6d7hdboo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

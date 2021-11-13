@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/logo"
+        android:layout_marginBottom="10dp"
+        />
+    <EditText
+        android:id="@+id/editId"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="이메일을 입력하세요"
+        android:textColorHint="@color/black"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:fontFamily="@font/cafe24ssurroundair"
+        android:layout_marginBottom="10dp"
+        />
+    <EditText
+        android:id="@+id/editPw"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="비밀번호를 입력하세요"
+        android:textColorHint="@color/black"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:fontFamily="@font/cafe24ssurroundair"
+        android:layout_marginBottom="10dp"
+        />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/teal_200"
+        android:onClick="login"
+        android:text="로그인"
+        android:fontFamily="@font/cafe24ssurroundair"
+        />
+
+
+</LinearLayout>
