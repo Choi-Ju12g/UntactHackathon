@@ -49,19 +49,17 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {//성공했을때
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
-                            startActivity(intent);
+                            finish();
                         } else {//실패했을때
-                            Toast.makeText(LoginActivity.this, "로그인 오류", Toast.LENGTH_SHORT).show();
+                            try{
+                                task.getResult();
+                            }catch(Exception e){
+                                e.printStackTrace();
+                                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
-
-
-    }
-
-    public void updateUI(FirebaseUser user){
-
     }
 
 }
