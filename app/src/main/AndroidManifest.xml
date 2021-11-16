@@ -14,8 +14,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
         <activity
+<<<<<<< HEAD
             android:name=".BoardActivity"
             android:exported="false" />
+=======
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+>>>>>>> 175d54a090da873b103314e3660988ec1ab4d8e7
         <activity
             android:name=".ProfileActivity"
             android:exported="false"
@@ -36,21 +48,17 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity
-            android:name=".MapsActivity"
-            android:exported="true"
-            android:label="@string/title_activity_maps"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="mtqgh6nafo" />
     </application>
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+>>>>>>> 175d54a090da873b103314e3660988ec1ab4d8e7
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
