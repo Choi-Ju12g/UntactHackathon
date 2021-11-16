@@ -17,12 +17,34 @@
         android:orientation="vertical">
         <include  layout="@layout/toolbar_main"/>
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/toolbar"
+            android:id="@+id/search"
+
+            android:hint="검색어를 입력하세요"
+            android:drawableLeft="@drawable/search"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
+            android:fontFamily="@font/cafe24ssurroundair"
+
+            />
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search"
+            tools:listitem="@layout/listview"
+            />
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
             android:name="com.naver.maps.map.MapFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"/>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/listView"
+            />
 
 
     </RelativeLayout>

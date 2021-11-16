@@ -1,5 +1,8 @@
 package com.example.howmanyseats;
 
+import android.util.Log;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,6 +15,8 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        String str = "이상윤";
+        String s = "ㅌ";
+        Assert.assertEquals(str.contains(s),false);
     }
 }
