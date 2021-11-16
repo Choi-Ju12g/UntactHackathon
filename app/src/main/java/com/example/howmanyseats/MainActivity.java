@@ -14,9 +14,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -29,12 +31,14 @@ import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.util.FusedLocationSource;
+import com.naver.maps.map.widget.LocationButtonView;
 
 import cz.msebera.android.httpclient.auth.AuthState;
 
-public class MapsActivity<Toolbar> extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity{
     //뷰
     private MapView mapView;
     private static final String TAG = "Main_Activity";
@@ -42,9 +46,12 @@ public class MapsActivity<Toolbar> extends AppCompatActivity implements OnMapRea
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private LocationButtonView locationButtonView;
+
     //파이어베이스
     private FirebaseAuth firebaseAuth;
     //네이버 맵
+
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private FusedLocationSource locationSource;
     private NaverMap naverMap;
@@ -54,11 +61,8 @@ public class MapsActivity<Toolbar> extends AppCompatActivity implements OnMapRea
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_main);
 
-        locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
-
-        mapView = findViewById(R.id.map_view);
         ivMenu = findViewById(R.id.iv_menu);
         drawerLayout = findViewById(R.id.drawer);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -91,7 +95,7 @@ public class MapsActivity<Toolbar> extends AppCompatActivity implements OnMapRea
                     second.setIcon(R.drawable.ic_baseline_person_add_24);
                     second.setTitle("회원가입");
                 }
-                    drawerLayout.openDrawer(GravityCompat.START);
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
 
@@ -129,26 +133,11 @@ public class MapsActivity<Toolbar> extends AppCompatActivity implements OnMapRea
                 return false;
             }
         });
+        MapFragment map = new MapFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView, map).commit();
     }
 
-    @Override
-    public void onMapReady(@NonNull NaverMap naverMap) {
-        this.naverMap = naverMap;
-        naverMap.setLocationSource(locationSource);
-    }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,  @NonNull int[] grantResults) {
-//        if (locationSource.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
-//            if (!locationSource.isActivated()) { // 권한 거부됨
-//                naverMap.setLocationTrackingMode(LocationTrackingMode.None);
-//            }
-//            else{
-//                naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
-//            }
-//            return;
-//        }
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
+
 
 }
