@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
 
         String id = editId.getText().toString();
         String pw = editPw.getText().toString();
-        firebaseAuth = firebaseAuth.getInstance();
 
+        firebaseAuth = firebaseAuth.getInstance();
         firebaseAuth.signInWithEmailAndPassword(id, pw)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
