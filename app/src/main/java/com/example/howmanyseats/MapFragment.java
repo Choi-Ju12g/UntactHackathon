@@ -10,6 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
@@ -29,6 +34,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private FusedLocationSource locationSource;
     private NaverMap naverMap;
+    private FirebaseFirestore db;
 
     public MapFragment() { }
 
@@ -43,6 +49,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     {
         super.onCreate(savedInstanceState);
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE); //현재위치 반환 구현체
+        db = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -89,6 +96,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         //건물 표시
         naverMap.setLayerGroupEnabled(naverMap.LAYER_GROUP_BUILDING, true);
+
 
 
     }
