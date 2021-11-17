@@ -77,7 +77,7 @@ public class LogupActivity extends AppCompatActivity {
                         user.put("pw",pw);
                         user.put("type",2);
 
-                        db.collection("member").document(id)
+                        db.collection("member").document(email)
                                 .set(user)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

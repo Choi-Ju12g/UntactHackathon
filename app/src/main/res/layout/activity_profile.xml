@@ -17,11 +17,15 @@
                 android:layout_width="match_parent"
                 />
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="10dp">
+
+
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -35,6 +39,58 @@
 
                 <TextView
                     android:id="@+id/email_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/cafe24ssurroundair"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+
+                    android:text="아이디"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/cafe24ssurroundair"
+
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/id_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/cafe24ssurroundair"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+
+                    android:text="이름"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/cafe24ssurroundair"
+
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/name_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
