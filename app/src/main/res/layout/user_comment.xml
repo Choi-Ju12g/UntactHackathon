@@ -7,7 +7,7 @@
     android:paddingTop="16dp"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="#CACACA">
+    android:background="#ffffff">
 
     <ImageButton
         android:id="@+id/uc_profile_btn"
@@ -15,7 +15,10 @@
         android:layout_height="48dp"
         android:scaleType="fitXY"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/profile" />
+        android:src="@drawable/ic_baseline_portrait_24"
+        android:background="@android:color/transparent"/>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +45,8 @@
                     android:isIndicator="true"
                     android:numStars="5"
                     android:stepSize="1"
-                    style="?android:attr/ratingBarStyleSmall"/>
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:theme="@style/RatingBar"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -71,6 +75,7 @@
             </LinearLayout>
 
             <ImageButton
+                android:id="@+id/uc_more_vert"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="130dp"

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 public class userCommentView extends LinearLayout {
-    ImageButton profile;
+    ImageButton profile,more_vert;
     TextView username,date,comment;
 
     public userCommentView(Context context) {
@@ -28,6 +28,7 @@ public class userCommentView extends LinearLayout {
         inflater.inflate(R.layout.activity_board,this,true);
 
         profile = findViewById(R.id.uc_profile_btn);
+        more_vert = findViewById(R.id.uc_more_vert);
         username = findViewById(R.id.uc_username);
         date = findViewById(R.id.uc_date);
         comment = findViewById(R.id.uc_comment);
