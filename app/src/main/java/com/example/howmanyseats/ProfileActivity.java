@@ -40,7 +40,6 @@ public class ProfileActivity extends AppCompatActivity {
                     if (document.exists()) { //
                         id.setText(document.get("id").toString());
                         name.setText(document.get("name").toString());
-
                     } else {                  //없을경우
 
                     }
@@ -49,7 +48,6 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         email.setText(firebaseAuth.getCurrentUser().getEmail().toString());
     }
