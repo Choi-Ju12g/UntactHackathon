@@ -19,5 +19,12 @@
             android:title="회원가입"
             android:icon="@drawable/ic_baseline_person_add_24"
             app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/action_test"
+            android:title="test"
+            android:icon="@drawable/ic_baseline_person_add_24"
+            app:showAsAction="ifRoom"/>
+
     </group>
  </menu>

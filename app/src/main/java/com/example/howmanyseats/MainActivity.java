@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity{
     private Toolbar toolbar;
     private NavigationView navigationView;
     private EditText searchText;
+
+
     //파이어베이스
     private FirebaseAuth firebaseAuth;
     //네이버 맵
@@ -114,6 +116,9 @@ public class MainActivity extends AppCompatActivity{
                     MenuItem second = menu.findItem(R.id.action_logup);
                     second.setTitle("로그아웃");
                     second.setIcon(R.drawable.sign_out);
+                    MenuItem third = menu.findItem(R.id.action_test);
+                    third.setIcon(R.drawable.ic_baseline_person_add_24);
+                    third.setTitle("test");
                 }
                 //비로그인인 경우
                 else{
@@ -123,6 +128,9 @@ public class MainActivity extends AppCompatActivity{
                     MenuItem second = menu.findItem(R.id.action_logup);
                     second.setIcon(R.drawable.ic_baseline_person_add_24);
                     second.setTitle("회원가입");
+                    MenuItem third = menu.findItem(R.id.action_test);
+                    third.setIcon(R.drawable.ic_baseline_person_add_24);
+                    third.setTitle("test");
                 }
                 drawerLayout.openDrawer(GravityCompat.START);
             }
@@ -155,6 +163,9 @@ public class MainActivity extends AppCompatActivity{
                         Toast.makeText(getApplicationContext(), "로그아웃", Toast.LENGTH_SHORT).show();
                     }
 
+                } else if (id == R.id.action_test){
+                    Intent intent = new Intent(getBaseContext(), BoardActivity.class);
+                    startActivity(intent);
                 }
                 DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
                 drawerLayout.closeDrawer(GravityCompat.START);
