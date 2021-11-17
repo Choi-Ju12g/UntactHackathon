@@ -83,5 +83,13 @@ public class BoardActivity extends AppCompatActivity {
         commentDataList.add(new userComment("이기태","1999.02.23","I want wide room",1));
         commentDataList.add(new userComment("이상윤","1999.05.21","fuck DB",5));
         commentDataList.add(new userComment("고정훈","2000.02.23","why this is wrong",2));
+        commentDataList.add(new userComment("최정우","1999.06.19","I hate this program",3));
+        commentDataList.add(new userComment("이기태","1999.02.23","I want wide room",1));
+        commentDataList.add(new userComment("이상윤","1999.05.21","fuck DB",5));
+        commentDataList.add(new userComment("고정훈","2000.02.23","why this is wrong",2));
+        commentDataList.add(new userComment("최정우","1999.06.19","I hate this program",3));
+        commentDataList.add(new userComment("이기태","1999.02.23","I want wide room",1));
+        commentDataList.add(new userComment("이상윤","1999.05.21","fuck DB",5));
+        commentDataList.add(new userComment("고정훈","2000.02.23","why this is wrong",2));
     }
 }
