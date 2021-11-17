@@ -87,7 +87,7 @@ android:orientation="vertical">
         </LinearLayout>
 
         <ListView
-            android:id="@+id/lv_userComment"
+            android:id="@+id/uc_lv_userComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
