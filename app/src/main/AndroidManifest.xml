@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.howmanyseats">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,6 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
         <activity
+<<<<<<< HEAD
+            android:name=".BoardActivity"
+            android:exported="false" />
+=======
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
@@ -19,6 +27,7 @@
             </intent-filter>
         </activity>
 
+>>>>>>> 175d54a090da873b103314e3660988ec1ab4d8e7
         <activity
             android:name=".ProfileActivity"
             android:exported="false"
@@ -44,8 +53,11 @@
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="mtqgh6nafo" />
     </application>
+<<<<<<< HEAD
+=======
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+>>>>>>> 175d54a090da873b103314e3660988ec1ab4d8e7
 
     <uses-permission android:name="android.permission.INTERNET" />
 
