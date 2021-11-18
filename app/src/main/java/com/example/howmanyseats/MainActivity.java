@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,6 +49,7 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.util.FusedLocationSource;
 import com.naver.maps.map.widget.LocationButtonView;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity{
     private ArrayList<String> names;
     private ArrayList<Store> stores;
     private SearchAdapter sa;
-    private ArrayList<String> list;
+    private ArrayList<Store> list;
 
     //뷰
     private MapView mapView;
@@ -208,7 +210,6 @@ public class MainActivity extends AppCompatActivity{
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 stores.add(document.toObject(Store.class));
-                                names.add(document.toObject(Store.class).getStoreName());
                             }
 
                             searchText.addTextChangedListener(new TextWatcher() {
@@ -227,13 +228,44 @@ public class MainActivity extends AppCompatActivity{
                                     listView.setAdapter(sa);
                                 }
                             });
+
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                    if(firebaseAuth.getCurrentUser() != null) {
+                                        Intent intent = new Intent(getBaseContext(), BoardActivity.class);
+                                        Store s = list.get(adapterView.getSelectedItemPosition());
+
+                                        intent.putExtra("address", s.getAddress());
+                                        intent.putExtra("buisnessName", s.getBusinessName());
+                                        intent.putExtra("detailAddress", s.getDetailAddress());
+                                        intent.putExtra("id", s.getId());
+                                        intent.putExtra("introduce", s.getIntroduce());
+                                        intent.putExtra("phone", s.getPhone());
+                                        intent.putExtra("positionIndex", s.getPositionIndex());
+                                        intent.putExtra("storeName", s.getStoreName());
+                                        intent.putExtra("totalSeat", s.getTotalSeat());
+                                        intent.putExtra("type", s.getType());
+
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Toast.makeText(getBaseContext(), "로그인이 필요한 서비스입니다.", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
                         } else {
                             Store s = new Store();
                             s.addNull();
                             stores.add(s);
                         }
                     }
+
                 });
+
+
     }
 
     public void search(String charText) {
@@ -247,14 +279,14 @@ public class MainActivity extends AppCompatActivity{
         else
         {
             // 리스트의 모든 데이터를 검색한다.
-            for(int i = 0;i < names.size(); i++)
+            for(int i = 0;i < stores.size(); i++)
             {
                 // arraylist의 모든 데이터에 입력받은 단어(charText)가 포함되어 있으면 true를 반환한다.
-                if (names.get(i).toLowerCase().contains(charText))
+                if (stores.get(i).getStoreName().toLowerCase().contains(charText))
                 {
                     // 검색된 데이터를 리스트에 추가한다.
-                    Log.v("search",names.get(i));
-                    list.add(names.get(i));
+                    Log.v("search",stores.get(i).getStoreName());
+                    list.add(stores.get(i));
                 }
             }
         }
