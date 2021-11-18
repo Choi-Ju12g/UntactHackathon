@@ -8,7 +8,11 @@ import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -48,6 +52,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.auth.AuthState;
 
@@ -70,7 +76,8 @@ public class MainActivity extends AppCompatActivity{
     //파이어베이스
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    //private FirestoreStoreDB db;
+    private FirebaseFirestore db;
+    //네이버 맵
 
 
     //네이버 맵
@@ -82,6 +89,7 @@ public class MainActivity extends AppCompatActivity{
     private Vector<Store> stores;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -99,11 +107,9 @@ public class MainActivity extends AppCompatActivity{
         user = firebaseAuth.getCurrentUser();
 
         //db에서 store가져오기
-//        stores = new Vector<>();
-//        db = new FirestoreStoreDB();
-//        stores = db.getAllStore();
 
-//        Log.v("test",stores.get(0).getAddress().toString());
+        stores = new Vector<>();
+        db = FirebaseFirestore.getInstance();
         /////////////
         names = new ArrayList<>();//식당이름들 db에서 받아와야함
         list = new ArrayList<>();//검색된 리스트 뷰에 추가할 리스트
@@ -192,12 +198,10 @@ public class MainActivity extends AppCompatActivity{
         searchText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
