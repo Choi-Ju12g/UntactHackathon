@@ -1,5 +1,7 @@
 package com.example.howmanyseats.Geocoding;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +17,17 @@ import org.apache.http.util.EntityUtils;
 
     public class Geocode {
 
-        String response = "";
+        String response;
 
         public String run(String address) throws IOException {
-            HttpPost httpPost = new HttpPost("https://maps.googleapis.com/maps/api/geocode/json?address="+address+"&components=country:KR");
+            HttpPost httpPost = new HttpPost("https://maps.googleapis.com/maps/api/geocode/json?address="+address+"&components=country:KR,+CA&key=AIzaSyBc5yVULjb5W99qj4DtTMhtGy-co4JBavI");
 
             HttpClient httpclient = new DefaultHttpClient();
 
             HttpResponse httpResponse = httpclient.execute(httpPost);
 
             response = EntityUtils.toString(httpResponse.getEntity());
-
+            Log.v("response add",response);
             return response;
         }
     }

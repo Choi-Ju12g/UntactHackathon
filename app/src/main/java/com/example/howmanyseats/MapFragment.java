@@ -1,5 +1,8 @@
 package com.example.howmanyseats;
 
+import com.example.howmanyseats.Geocoding.GeoPointer;
+
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -7,13 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.howmanyseats.DB.FirestoreStoreDB;
+import com.example.howmanyseats.Geocoding.GeoThread;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,6 +31,7 @@ import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
 import java.util.Vector;
@@ -155,14 +161,39 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             @Override
             protected void onProgressUpdate(Store ... values) {
                 cnt++;
-                Log.v("marker",String.valueOf(cnt) + ": " + values[0].getAddress().toString());
+                Store store = new Store();
+                store = values[0];
+                String address = store.getAddress().toString();
 
+                Store finalStore = store;
+                GeoPointer.OnGeoPointListener listener = new GeoPointer.OnGeoPointListener() {
+                    @Override
+                    public void onPoint(GeoPointer.Point[] p) {
+                        int sCnt = 0, fCnt = 0;
+                        for (GeoPointer.Point point : p) {
+                            if (point.havePoint) sCnt++;
+                            else fCnt++;
+                            Log.d("TEST_CODE", point.toString());
+                            createMarker(new LatLng(point.getY(),point.getX()), finalStore);
+                        }
+                        Log.d("TEST_CODE", String.format("성공 : %s, 실패 : %s", sCnt, fCnt));
+                    }
+
+                    @Override
+                    public void onProgress(int progress, int max) {
+                        Log.d("TEST_CODE", String.format("좌표를 얻어오는중 %s / %s", progress, max));
+                    }
+                };
+
+                GeoPointer geoPointer = new GeoPointer(getContext(), listener);
+                geoPointer.execute(address);
             }
+
 
             @Override
             protected void onPostExecute(Vector<Store> stores) {
                 super.onPostExecute(stores);
-                Log.v("finish", String.valueOf(stores.size()));
+                Log.v("finish", String.valueOf(list.equals(stores)));
                 for(int i = 0; i < stores.size(); i++){
                     Log.v("finish", stores.get(i).getAddress().toString());
                 }
@@ -226,9 +257,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView.onLowMemory();
     }
 
-    public void createMarker(LatLng loc){
+    public void createMarker(LatLng loc, Store store){
         Marker marker = new Marker();
         marker.setPosition(loc);
         marker.setMap(this.naverMap);
+        if(store.getType().equals("cafe")){        //카페
+            marker.setIcon(OverlayImage.fromResource(R.drawable.cafe));
+            marker.setIconTintColor(Color.BLUE);
+        }
+        else if(store.getType().equals("restaurant")){      //식당
+            marker.setIcon(OverlayImage.fromResource(R.drawable.restaurant));
+            marker.setIconTintColor(Color.RED);
+        }
+        else if(store.getType().equals("sool")){       //주점
+            marker.setIcon(OverlayImage.fromResource(R.drawable.soool));
+            marker.setIconTintColor(Color.GREEN);
+        }
+
+        marker.setCaptionText(store.getStoreName() + "\n" + "남은 자리 : " + String.valueOf(store.getTotalSeat()));
+        marker.setCaptionTextSize(15);
     }
 }
