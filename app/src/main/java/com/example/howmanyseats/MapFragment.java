@@ -37,6 +37,7 @@ import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -52,7 +53,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationSource locationSource;
     private NaverMap naverMap;
     private FirebaseFirestore db;
-    private Vector<Store> list;
+    private ArrayList<Store> list;
     private FirebaseAuth auth;
 
     public MapFragment() {
@@ -120,9 +121,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         //db의 상점들 출력
 
-        Vector<Store> list = new Vector<>();
+        list = new ArrayList<>();
 
-        class BackgroundTask extends AsyncTask<Vector<Store> , Store, Vector<Store>> {
+        class BackgroundTask extends AsyncTask<ArrayList<Store> , Store, ArrayList<Store>> {
 
             private int cnt = 0;
 
@@ -131,12 +132,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
 
             @Override
-            protected void onCancelled(Vector<Store> stores) {
+            protected void onCancelled(ArrayList<Store> stores) {
                 super.onCancelled(stores);
             }
 
             @Override
-            protected Vector<Store> doInBackground(Vector<Store>... vectors) {
+            protected ArrayList<Store> doInBackground(ArrayList<Store>... vectors) {
 
                 db.collection("store")
                         .get()
@@ -159,8 +160,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return vectors[0];
             }
 
+            @Override
             protected void onPreExecute() {
-
+                super.onPreExecute();
             }
 
             @Override
@@ -168,6 +170,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 cnt++;
                 Store store = new Store();
                 store = values[0];
+                list.add(store);
                 String address = store.getAddress().toString();
 
                 Store finalStore = store;
@@ -194,17 +197,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 geoPointer.execute(address);
             }
 
-
             @Override
-            protected void onPostExecute(Vector<Store> stores) {
-                super.onPostExecute(stores);
-                Log.v("finish", String.valueOf(list.equals(stores)));
+            protected void onPostExecute(ArrayList<Store> stores) {
+
+                Log.v("finish", String.valueOf(stores.size()));
                 for(int i = 0; i < stores.size(); i++){
                     Log.v("finish", stores.get(i).getAddress().toString());
                 }
             }
 
+            @Override
             protected void onCancelled() {
+                super.onCancelled();
             }
         }
 
@@ -313,4 +317,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
+    public ArrayList<Store> getList() {
+        return list;
+    }
 }

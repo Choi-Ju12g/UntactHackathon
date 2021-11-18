@@ -30,10 +30,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapView;
@@ -57,11 +61,13 @@ public class MainActivity extends AppCompatActivity{
 
     //search 리스트, 어댑터
     private ArrayList<String> names;
+    private ArrayList<Store> stores;
     private SearchAdapter sa;
     private ArrayList<String> list;
 
     //뷰
     private MapView mapView;
+    private MapFragment map;
     private static final String TAG = "Main_Activity";
     private ImageView ivMenu;
     private DrawerLayout drawerLayout;
@@ -82,7 +88,6 @@ public class MainActivity extends AppCompatActivity{
     private NaverMap naverMap;
 
     //맵에 표시할 주소들
-    private Vector<Store> stores;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -103,16 +108,12 @@ public class MainActivity extends AppCompatActivity{
         user = firebaseAuth.getCurrentUser();
 
         //db에서 store가져오기
-
-        stores = new Vector<>();
         db = FirebaseFirestore.getInstance();
         /////////////
+        stores = new ArrayList<>();
         names = new ArrayList<>();//식당이름들 db에서 받아와야함
         list = new ArrayList<>();//검색된 리스트 뷰에 추가할 리스트
-        names.add("이상윤");
-        names.add("이기태");
-        names.add("최정우");
-        names.add("고정훈");
+
 
         ListView listView = findViewById(R.id.listView);
         sa = new SearchAdapter(this, list);
@@ -191,31 +192,53 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        searchText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String text = searchText.getText().toString();
-                search(text);
-                listView.setAdapter(sa);
-            }
-        });
 
 
         //맵 프래그먼트 화면에 출력
-        MapFragment map = new MapFragment();
+        map = new MapFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView, map).commit();
+
+        //async
+        db.collection("store")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                stores.add(document.toObject(Store.class));
+                                names.add(document.toObject(Store.class).getStoreName());
+                            }
+
+                            searchText.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+                                    String text = searchText.getText().toString();
+                                    search(text);
+                                    listView.setAdapter(sa);
+                                }
+                            });
+                        } else {
+                            Store s = new Store();
+                            s.addNull();
+                            stores.add(s);
+                        }
+                    }
+                });
     }
 
     public void search(String charText) {
         list.clear();
+
         // 문자 입력이 없을때는 없음
         if (charText.length() == 0) {
 
