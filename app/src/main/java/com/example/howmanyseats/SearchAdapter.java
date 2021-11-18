@@ -14,10 +14,10 @@ import java.util.List;
 
 public class SearchAdapter extends BaseAdapter {
 
-    private List<String> names;
+    private List<Store> names;
     private Context context;
 
-    public SearchAdapter(Context context, List<String> names){
+    public SearchAdapter(Context context, List<Store> names){
         this.context = context;
         this.names = names;
     }
@@ -26,7 +26,7 @@ public class SearchAdapter extends BaseAdapter {
         this.names = names;
 
         if(names.size() == 0){
-            names.add("검색어를 입력하세요");
+            //names.add("검색어를 입력하세요");
         }
     }
     @Override
@@ -48,7 +48,7 @@ public class SearchAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = LayoutInflater.from(context).inflate(R.layout.listview, null);
         TextView tv = v.findViewById(R.id.label);
-        tv.setText(names.get(i));
+        tv.setText(names.get(i).getStoreName());
         return v;
     }
 }

@@ -38,6 +38,7 @@ public class BoardActivity extends AppCompatActivity {
     ArrayList<userComment> commentDataList;
     ImageView store_layout;
     TextView storeName, address, phone, type, introduce, totalSeats, name;
+    ImageButton back;
     Intent intent;
     FirebaseAuth auth;
     FirebaseFirestore db;
@@ -61,9 +62,16 @@ public class BoardActivity extends AppCompatActivity {
         introduce = findViewById(R.id.introduce);
         introduce.setText(intent.getStringExtra("introduce"));
         totalSeats = findViewById(R.id.totalSeat);
-        totalSeats.setText("남은 자리 " + intent.getStringExtra("totalSeats"));
-        name = findViewById(R.id.name);
 
+        totalSeats.setText("남은 자리 " + intent.getStringExtra("totalSeat"));
+        name = findViewById(R.id.name);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         //db에서 사용자 이름 찾기
         DocumentReference docRef = db.collection("member").document(auth.getCurrentUser().getEmail().toString());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
