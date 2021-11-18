@@ -285,7 +285,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     intent.putExtra("phone", s.getPhone());
                     intent.putExtra("positionIndex", s.getPositionIndex());
                     intent.putExtra("storeName", s.getStoreName());
-                    intent.putExtra("totalSeat", s.getTotalSeat());
+                    intent.putExtra("totalSeat", s.getTotalSeat().toString());
                     intent.putExtra("type", s.getType());
 
                     startActivity(intent);
