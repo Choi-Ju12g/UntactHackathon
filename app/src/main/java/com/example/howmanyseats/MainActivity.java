@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity{
     private SearchAdapter sa;
     private ArrayList<String> list;
 
-
-
     //뷰
     private MapView mapView;
     private static final String TAG = "Main_Activity";
@@ -75,13 +73,14 @@ public class MainActivity extends AppCompatActivity{
     private NavigationView navigationView;
     private EditText searchText;
 
-
     //파이어베이스
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private FirebaseFirestore db;
     //네이버 맵
 
+
+    //네이버 맵
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private FusedLocationSource locationSource;
     private NaverMap naverMap;
@@ -108,9 +107,9 @@ public class MainActivity extends AppCompatActivity{
         user = firebaseAuth.getCurrentUser();
 
         //db에서 store가져오기
+
         stores = new Vector<>();
         db = FirebaseFirestore.getInstance();
-
         /////////////
         names = new ArrayList<>();//식당이름들 db에서 받아와야함
         list = new ArrayList<>();//검색된 리스트 뷰에 추가할 리스트

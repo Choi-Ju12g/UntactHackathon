@@ -1,99 +1,297 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:padding="16dp"
-android:layout_height="match_parent"
-android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000">
 
+    <!-- 가게 이름 및 뒤로가기 버튼 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginBottom="8dp"
-
-        android:background="#CACACA">
+        android:orientation="horizontal"
+        android:background="@android:color/holo_blue_light"
+        android:layout_marginBottom="0.5dp"
+        android:padding="8dp">
 
         <ImageButton
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/profile"
-            android:layout_gravity="center"/>
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="최정우님 후기를 남겨주세요"
-            android:textSize="24dp"
-            android:textColor="#000000"/>
+            android:src="@drawable/ic_baseline_west_24"
+            android:background="@android:color/transparent"
+            android:layout_gravity="left"
+            android:layout_marginLeft="4dp"/>
 
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:isIndicator="false"
-            android:numStars="5"
-            android:stepSize="1"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="44dp"
+            android:text="준호네 부대찌개"
+            android:textColor="#000000"
+            android:textSize="28dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:fontFamily="@font/cafe24ssurroundair"/>
 
     </LinearLayout>
 
-    <LinearLayout
+
+    <!-- 가게 이름 및 스크롤 뷰 작성 -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#CACACA">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="#DFDFDF"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- 가게 정보 나오는 페이지-->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#ffffff"
+                android:padding="8dp"
+                android:layout_marginBottom="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_location_on_24"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16dp"
+                        android:text="서울 동작구 흑석동 84길 208관 117호"
+                        android:paddingLeft="4dp"
+                        android:fontFamily="@font/cafe24ssurroundair"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_local_phone_24"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16dp"
+                        android:text="02-8359-3949"
+                        android:paddingLeft="4dp"
+                        android:fontFamily="@font/cafe24ssurroundair"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="0dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_storefront_24"
+                        android:layout_gravity="top"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#000000"
+                            android:textSize="16dp"
+                            android:text="카페"
+                            android:paddingLeft="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:fontFamily="@font/cafe24ssurroundair"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#000000"
+                            android:textSize="16dp"
+                            android:text="이 근방 최고의 가성비를 자랑하는 카페\nTake Out 아메리카노 1500원"
+                            android:paddingLeft="4dp"
+                            android:fontFamily="@font/cafe24ssurroundair"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- 가게 배치도 나오는 페이지-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_gravity="center"
-                android:textSize="32dp"
-                android:text="2.2 점"
-                android:textColor="@android:color/black"
-                android:paddingRight="8dp"/>
+                android:padding="8dp"
+                android:layout_marginBottom="6dp"
+                android:background="#ffffff">
 
-            <RatingBar
-                style="?android:attr/ratingBarStyleIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:isIndicator="true"
-                android:numStars="5" />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="가게배치도"
+                    android:textSize="24dp"
+                    android:textColor="#000000"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/cafe24ssurroundair"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|right"
-                android:paddingRight="2dp"
-                android:src="@drawable/ic_baseline_people_24" />
+                <ImageView
+                    android:id="@+id/uc_store_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="남은 자리 : 3"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/cafe24ssurroundair"/>
+
+
+            </LinearLayout>
+            <!-- 후기 남기는 페이지 -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingRight="8dp"
-                android:text="18"
-                android:textSize="20dp"/>
+                android:paddingTop="4dp"
+                android:layout_marginBottom="6dp"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_portrait_24"
+                    android:background="@android:color/transparent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="최정우님 후기를 남겨주세요"
+                    android:textColor="#000000"
+                    android:textSize="24dp"
+                    android:fontFamily="@font/cafe24ssurroundair"/>
+
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:theme="@style/RatingBar"/>
+
+
+            </LinearLayout>
+
+            <!-- 별점 및 댓글 페이지-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#777777"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="#ffffff">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingRight="8dp"
+                        android:paddingLeft="8dp"
+                        android:text="2.2 점"
+                        android:textColor="@android:color/black"
+                        android:textSize="32dp"
+                        android:fontFamily="@font/cafe24ssurroundair"/>
+
+                    <RatingBar
+                        style="?android:attr/ratingBarStyleIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:theme="@style/RatingBar"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|right"
+                        android:paddingRight="2dp"
+                        android:src="@drawable/ic_baseline_people_alt_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingRight="8dp"
+                        android:text="18"
+                        android:textSize="20dp"
+                        android:textColor="#000000"
+                        android:fontFamily="@font/cafe24ssurroundair"/>
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/uc_lv_userComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:scrollbars="none"
+                    android:background="#ffffff"/>
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:paddingRight="8dp"
+                    android:text="모든 후기 보기 >"
+                    android:textColor="#000000"
+                    android:background="#ffffff"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/cafe24ssurroundair"/>
+
+            </LinearLayout>
 
         </LinearLayout>
-
-        <ListView
-            android:id="@+id/uc_lv_userComment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            android:scrollbars="none">
-
-
-        </ListView>
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
