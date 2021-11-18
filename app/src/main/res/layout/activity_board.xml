@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#ffffff"
+        android:background="@android:color/holo_blue_light"
         android:layout_marginBottom="0.5dp"
         android:padding="8dp">
 
@@ -141,6 +141,7 @@
 
             </LinearLayout>
 
+            <!-- 가게 배치도 나오는 페이지-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -163,7 +164,16 @@
                     android:id="@+id/uc_store_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_portrait_24"/>
+                    android:layout_marginBottom="6dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="남은 자리 : 3"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/cafe24ssurroundair"/>
 
 
             </LinearLayout>
@@ -268,6 +278,7 @@
                     android:scrollbars="none"
                     android:background="#ffffff"/>
 
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -276,6 +287,7 @@
                     android:text="모든 후기 보기 >"
                     android:textColor="#000000"
                     android:background="#ffffff"
+                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/cafe24ssurroundair"/>
 
             </LinearLayout>
