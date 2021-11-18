@@ -46,9 +46,9 @@ public class BoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
-        auth.getInstance();
+        auth = auth.getInstance();
         intent = getIntent();
-
+        db = FirebaseFirestore.getInstance();
         //텍스트 설정
         storeName = findViewById(R.id.storeName);
         storeName.setText(intent.getStringExtra("storeName"));

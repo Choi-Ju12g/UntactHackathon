@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.howmanyseats.Geocoding.GeoThread;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -52,6 +53,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private NaverMap naverMap;
     private FirebaseFirestore db;
     private Vector<Store> list;
+    private FirebaseAuth auth;
 
     public MapFragment() {
     }
@@ -68,6 +70,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE); //현재위치 반환 구현체
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -267,24 +270,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
-                Intent intent = new Intent(getContext(), BoardActivity.class);
+                if(auth.getCurrentUser() != null) {
+                    Intent intent = new Intent(getContext(), BoardActivity.class);
 
-                intent.putExtra("address",s.getAddress());
-                intent.putExtra("buisnessName",s.getBusinessName());
-                intent.putExtra("detailAddress",s.getDetailAddress());
-                intent.putExtra("id",s.getId());
-                intent.putExtra("introduce",s.getIntroduce());
-                intent.putExtra("phone",s.getPhone());
-                intent.putExtra("positionIndex",s.getPositionIndex());
-                intent.putExtra("storeName",s.getStoreName());
-                intent.putExtra("totalSeat",s.getTotalSeat());
-                intent.putExtra("type",s.getType());
+                    intent.putExtra("address", s.getAddress());
+                    intent.putExtra("buisnessName", s.getBusinessName());
+                    intent.putExtra("detailAddress", s.getDetailAddress());
+                    intent.putExtra("id", s.getId());
+                    intent.putExtra("introduce", s.getIntroduce());
+                    intent.putExtra("phone", s.getPhone());
+                    intent.putExtra("positionIndex", s.getPositionIndex());
+                    intent.putExtra("storeName", s.getStoreName());
+                    intent.putExtra("totalSeat", s.getTotalSeat());
+                    intent.putExtra("type", s.getType());
 
-                startActivity(intent);
-
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getContext(), "로그인이 필요한 서비스입니다.", Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
+
         marker.setPosition(loc);
         marker.setMap(this.naverMap);
         if(store.getType().equals("cafe")){        //카페
