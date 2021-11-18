@@ -92,6 +92,20 @@ public class MainActivity extends AppCompatActivity{
     //맵에 표시할 주소들
 
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        map.onDestroy();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        map = new MapFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView, map).commit();
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
