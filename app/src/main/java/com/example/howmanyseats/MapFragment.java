@@ -2,6 +2,7 @@ package com.example.howmanyseats;
 
 import com.example.howmanyseats.Geocoding.GeoPointer;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
@@ -259,6 +261,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public void createMarker(LatLng loc, Store store){
         Marker marker = new Marker();
+        marker.setOnClickListener(new Overlay.OnClickListener() {
+
+            Store s = store;
+
+            @Override
+            public boolean onClick(@NonNull Overlay overlay) {
+                Intent intent = new Intent(getContext(), BoardActivity.class);
+
+                intent.putExtra("address",s.getAddress());
+                intent.putExtra("buisnessName",s.getBusinessName());
+                intent.putExtra("detailAddress",s.getDetailAddress());
+                intent.putExtra("id",s.getId());
+                intent.putExtra("introduce",s.getIntroduce());
+                intent.putExtra("phone",s.getPhone());
+                intent.putExtra("positionIndex",s.getPositionIndex());
+                intent.putExtra("storeName",s.getStoreName());
+                intent.putExtra("totalSeat",s.getTotalSeat());
+                intent.putExtra("type",s.getType());
+
+                startActivity(intent);
+
+                return false;
+            }
+        });
         marker.setPosition(loc);
         marker.setMap(this.naverMap);
         if(store.getType().equals("cafe")){        //카페
@@ -276,5 +302,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         marker.setCaptionText(store.getStoreName() + "\n" + "남은 자리 : " + String.valueOf(store.getTotalSeat()));
         marker.setCaptionTextSize(15);
+
     }
+
 }

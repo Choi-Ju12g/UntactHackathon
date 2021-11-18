@@ -27,12 +27,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingRight="44dp"
-            android:text="준호네 부대찌개"
             android:textColor="#000000"
             android:textSize="28dp"
             android:gravity="center"
             android:layout_gravity="center"
-            android:fontFamily="@font/cafe24ssurroundair"/>
+            android:fontFamily="@font/cafe24ssurroundair"
+            android:id="@+id/storeName"/>
 
     </LinearLayout>
 
@@ -74,9 +74,9 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16dp"
-                        android:text="서울 동작구 흑석동 84길 208관 117호"
                         android:paddingLeft="4dp"
-                        android:fontFamily="@font/cafe24ssurroundair"/>
+                        android:fontFamily="@font/cafe24ssurroundair"
+                        android:id="@+id/address"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -96,9 +96,9 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16dp"
-                        android:text="02-8359-3949"
                         android:paddingLeft="4dp"
-                        android:fontFamily="@font/cafe24ssurroundair"/>
+                        android:fontFamily="@font/cafe24ssurroundair"
+                        android:id="@+id/phone"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -122,20 +122,19 @@
                             android:layout_height="wrap_content"
                             android:textColor="#000000"
                             android:textSize="16dp"
-                            android:text="카페"
                             android:paddingLeft="4dp"
                             android:layout_marginBottom="4dp"
-                            android:fontFamily="@font/cafe24ssurroundair"/>
+                            android:fontFamily="@font/cafe24ssurroundair"
+                            android:id="@+id/type"/>
 
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#000000"
-                            android:textSize="16dp"
-                            android:text="이 근방 최고의 가성비를 자랑하는 카페\nTake Out 아메리카노 1500원"
-                            android:paddingLeft="4dp"
-                            android:fontFamily="@font/cafe24ssurroundair"/>
+                            android:textSize="16dp"                            android:paddingLeft="4dp"
+                            android:fontFamily="@font/cafe24ssurroundair"
+                            android:id="@+id/introduce"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -169,11 +168,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="남은 자리 : 3"
                     android:textColor="#000000"
                     android:textSize="20dp"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/cafe24ssurroundair"/>
+                    android:fontFamily="@font/cafe24ssurroundair"
+                    android:id="@+id/totalSeat"/>
 
 
             </LinearLayout>
@@ -200,7 +199,8 @@
                     android:text="최정우님 후기를 남겨주세요"
                     android:textColor="#000000"
                     android:textSize="24dp"
-                    android:fontFamily="@font/cafe24ssurroundair"/>
+                    android:fontFamily="@font/cafe24ssurroundair"
+                    android:id="@+id/name"/>
 
                 <RatingBar
                     android:layout_width="wrap_content"

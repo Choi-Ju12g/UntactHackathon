@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,8 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -29,12 +37,52 @@ import java.util.ArrayList;
 public class BoardActivity extends AppCompatActivity {
     ArrayList<userComment> commentDataList;
     ImageView store_layout;
+    TextView storeName, address, phone, type, introduce, totalSeats, name;
+    Intent intent;
+    FirebaseAuth auth;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+        auth.getInstance();
+        intent = getIntent();
 
+        //텍스트 설정
+        storeName = findViewById(R.id.storeName);
+        storeName.setText(intent.getStringExtra("storeName"));
+        address = findViewById(R.id.address);
+        address.setText(intent.getStringExtra("address"));
+        phone = findViewById(R.id.phone);
+        phone.setText(intent.getStringExtra("phone"));
+        type = findViewById(R.id.type);
+        type.setText(intent.getStringExtra("type"));
+        introduce = findViewById(R.id.introduce);
+        introduce.setText(intent.getStringExtra("introduce"));
+        totalSeats = findViewById(R.id.totalSeat);
+        totalSeats.setText("남은 자리 " + intent.getStringExtra("totalSeats"));
+        name = findViewById(R.id.name);
+
+        //db에서 사용자 이름 찾기
+        DocumentReference docRef = db.collection("member").document(auth.getCurrentUser().getEmail().toString());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) { //
+                        name.setText(document.get("name").toString() +"님 후기를 남겨주세요");
+                    } else {                  //없을경우
+
+                    }
+                } else {
+                    Log.d("error", "get failed with ", task.getException());
+                }
+            }
+        });
+
+        //
         // list view 화면 띄우기 addapter 이용
         this.initData();
         ListView listView = (ListView) findViewById(R.id.uc_lv_userComment);
