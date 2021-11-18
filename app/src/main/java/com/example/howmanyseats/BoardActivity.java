@@ -1,8 +1,10 @@
 package com.example.howmanyseats;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,26 +13,36 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.example.howmanyseats.DB.FirestoreStoreDB;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class BoardActivity extends AppCompatActivity {
     ArrayList<userComment> commentDataList;
+    ImageView store_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
-        this.initData();
 
+        // list view 화면 띄우기 addapter 이용
+        this.initData();
         ListView listView = (ListView) findViewById(R.id.uc_lv_userComment);
         final MyAdapter adapter = new MyAdapter(this,commentDataList);
         listView.setAdapter(adapter);
 
-
+        // list view 와 scroll view 화면 겹침 해결
         listView.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View v, MotionEvent event) {
@@ -38,9 +50,29 @@ public class BoardActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
 
-    public
+        store_layout = (ImageView) findViewById(R.id.uc_store_layout);
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        StorageReference pathReference = storageReference.child("layout");
+        if(pathReference == null){
+            Toast.makeText(BoardActivity.this, "저장소에 사진이 없습니다",Toast.LENGTH_SHORT).show();
+
+        }else{
+            StorageReference submitProfile = storageReference.child("layout/storelayout.jfif");
+            submitProfile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with(BoardActivity.this).load(uri).into(store_layout);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+        }
+    }
 
     public void initData(){
         commentDataList = new ArrayList<userComment>();
