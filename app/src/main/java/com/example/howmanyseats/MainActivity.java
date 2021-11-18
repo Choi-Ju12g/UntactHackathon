@@ -4,27 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,42 +26,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.naver.maps.geometry.LatLng;
-import com.naver.maps.map.LocationTrackingMode;
-import com.naver.maps.map.MapView;
-import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.OnMapReadyCallback;
-import com.naver.maps.map.UiSettings;
-import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.util.FusedLocationSource;
-import com.naver.maps.map.widget.LocationButtonView;
-
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
-import cz.msebera.android.httpclient.auth.AuthState;
 
 public class MainActivity extends AppCompatActivity{
 
     //search 리스트, 어댑터
-    private ArrayList<String> names;
     private ArrayList<Store> stores;
     private SearchAdapter sa;
     private ArrayList<Store> list;
 
     //뷰
-    private MapView mapView;
     private MapFragment map;
-    private static final String TAG = "Main_Activity";
     private ImageView ivMenu;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -79,17 +48,7 @@ public class MainActivity extends AppCompatActivity{
 
     //파이어베이스
     private FirebaseAuth firebaseAuth;
-    private FirebaseUser user;
     private FirebaseFirestore db;
-    //네이버 맵
-
-
-    //네이버 맵
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
-    private FusedLocationSource locationSource;
-    private NaverMap naverMap;
-
-    //맵에 표시할 주소들
 
 
     @Override
@@ -121,13 +80,10 @@ public class MainActivity extends AppCompatActivity{
         firebaseAuth=firebaseAuth.getInstance();
         Menu menu = navigationView.getMenu();
 
-        user = firebaseAuth.getCurrentUser();
-
         //db에서 store가져오기
         db = FirebaseFirestore.getInstance();
         /////////////
         stores = new ArrayList<>();
-        names = new ArrayList<>();//식당이름들 db에서 받아와야함
         list = new ArrayList<>();//검색된 리스트 뷰에 추가할 리스트
 
 
@@ -248,8 +204,10 @@ public class MainActivity extends AppCompatActivity{
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                                     if(firebaseAuth.getCurrentUser() != null) {
+
                                         Intent intent = new Intent(getBaseContext(), BoardActivity.class);
-                                        Store s = list.get(adapterView.getSelectedItemPosition());
+                                        Log.v("item posiotion : ", String.valueOf(adapterView.getSelectedItemPosition()));
+                                        Store s = list.get(i);
 
                                         intent.putExtra("address", s.getAddress());
                                         intent.putExtra("buisnessName", s.getBusinessName());
@@ -276,10 +234,7 @@ public class MainActivity extends AppCompatActivity{
                             stores.add(s);
                         }
                     }
-
                 });
-
-
     }
 
     public void search(String charText) {
