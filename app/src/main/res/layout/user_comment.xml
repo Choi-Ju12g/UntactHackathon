@@ -58,26 +58,28 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="이상윤"
-                        android:textSize="18dp"
+                        android:textSize="14dp"
                         android:textColor="#000000"
                         android:layout_marginBottom="8dp"
-                        android:layout_marginRight="8dp"/>
+                        android:layout_marginRight="8dp"
+                        android:fontFamily="@font/cafe24ssurroundair"/>
 
                     <TextView
                         android:id="@+id/uc_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2021.11.16"
-                        android:textSize="18dp"
+                        android:textSize="14dp"
                         android:textColor="#000000"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/cafe24ssurroundair"/>
                 </LinearLayout>
             </LinearLayout>
 
             <ImageButton
                 android:id="@+id/uc_more_vert"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="130dp"
                 android:src="@drawable/ic_baseline_more_vert_24"
                 android:background="@android:color/transparent"/>
@@ -89,6 +91,7 @@
             android:layout_height="wrap_content"
             android:text="이게 가게가 맞나 싶을 정도로 별로네요.\n다시는 안가겠습니다\n"
             android:textSize="16dp"
-            android:textColor="#000000"/>
+            android:textColor="#000000"
+            android:fontFamily="@font/cafe24ssurroundair"/>
     </LinearLayout>
 </LinearLayout>

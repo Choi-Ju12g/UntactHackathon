@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,8 +30,17 @@ public class BoardActivity extends AppCompatActivity {
         final MyAdapter adapter = new MyAdapter(this,commentDataList);
         listView.setAdapter(adapter);
 
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                listView.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
     }
 
+    public
 
     public void initData(){
         commentDataList = new ArrayList<userComment>();
@@ -40,12 +50,12 @@ public class BoardActivity extends AppCompatActivity {
         commentDataList.add(new userComment("고정훈","2000.02.23","why this is wrong",2));
         commentDataList.add(new userComment("최정우","1999.06.19","I hate this program",3));
         commentDataList.add(new userComment("이기태","1999.02.23","I want wide room",1));
-//        commentDataList.add(new userComment("이상윤","1999.05.21","fuck DB",5));
-//        commentDataList.add(new userComment("고정훈","2000.02.23","why this is wrong",2));
-//        commentDataList.add(new userComment("최정우","1999.06.19","I hate this program",3));
-//        commentDataList.add(new userComment("이기태","1999.02.23","I want wide room",1));
-//        commentDataList.add(new userComment("이상윤","1999.05.21","fuck DB",5));
-//        commentDataList.add(new userComment("고정훈","2000.02.23","why this is wrong",2));
+        commentDataList.add(new userComment("이상윤","1999.05.21","fuck DB",5));
+        commentDataList.add(new userComment("고정훈","2000.02.23","why this is wrong",2));
+        commentDataList.add(new userComment("최정우","1999.06.19","I hate this program",3));
+        commentDataList.add(new userComment("이기태","1999.02.23","I want wide room",1));
+        commentDataList.add(new userComment("이상윤","1999.05.21","fuck DB",5));
+        commentDataList.add(new userComment("고정훈","2000.02.23","why this is wrong",2));
     }
 }
 
