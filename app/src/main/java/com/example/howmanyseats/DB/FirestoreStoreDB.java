@@ -10,12 +10,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.naver.maps.map.NaverMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class FirestoreStoreDB implements StoreDB{
+public class FirestoreStoreDB{
 
     private FirebaseFirestore db;
 
@@ -24,8 +25,7 @@ public class FirestoreStoreDB implements StoreDB{
         this.db = FirebaseFirestore.getInstance();
     }
 
-    @Override
-    public Vector<Store> getAllStore() {
+    public Vector<Store> getAllStore(NaverMap naverMap) {
         Vector<Store> list = new Vector<>();
 
         db.collection("store")
@@ -44,18 +44,16 @@ public class FirestoreStoreDB implements StoreDB{
                         }
                     }
                 });
+
         return list;
     }
 
-    @Override
     public ArrayList<Store> findStoreByName(String storeName) {
         ArrayList<Store> st = new ArrayList<>();
-
 
         return st;
     }
 
-    @Override
     public ArrayList<Store> findStoreByAddress(String address) {
         ArrayList<Store> list = new ArrayList<>();
 
