@@ -9,13 +9,27 @@ public class Store {
     private String businessName;
     private String phone;
     private String storeName;
-    private StoreStruct storeStruct;
+    private String id;
     private List<String> positionIndex;
     private Long totalSeat;
     private String type;
+    private String introduce;
 
-    public List<String> getPositionIndex() {
-        return positionIndex;
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public String[] getPositionIndex() {
+
+        String[] str = new String[this.positionIndex.size()];
+        for(int i = 0; i < str.length; i++){
+            str[i] = positionIndex.get(i);
+        }
+        return str;
     }
 
     public void setPositionIndex(List<String> positionIndex) {
@@ -78,16 +92,21 @@ public class Store {
         this.address = address;
     }
 
-    public StoreStruct getStoreStruct() {
-        return storeStruct;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setStoreStruct(StoreStruct storeStruct) {
-        this.storeStruct = storeStruct;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void addNull(){
         String address = "not real address";
+        String id;
         String detailAddress;
         String businessName;
         String phone;

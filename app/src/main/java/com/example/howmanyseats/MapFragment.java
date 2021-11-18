@@ -2,6 +2,7 @@ package com.example.howmanyseats;
 
 import com.example.howmanyseats.Geocoding.GeoPointer;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.example.howmanyseats.Geocoding.GeoThread;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -31,6 +33,7 @@ import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
@@ -50,6 +53,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private NaverMap naverMap;
     private FirebaseFirestore db;
     private Vector<Store> list;
+    private FirebaseAuth auth;
 
     public MapFragment() {
     }
@@ -66,6 +70,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE); //현재위치 반환 구현체
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -259,6 +264,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public void createMarker(LatLng loc, Store store){
         Marker marker = new Marker();
+        marker.setOnClickListener(new Overlay.OnClickListener() {
+
+            Store s = store;
+
+            @Override
+            public boolean onClick(@NonNull Overlay overlay) {
+                if(auth.getCurrentUser() != null) {
+                    Intent intent = new Intent(getContext(), BoardActivity.class);
+
+                    intent.putExtra("address", s.getAddress());
+                    intent.putExtra("buisnessName", s.getBusinessName());
+                    intent.putExtra("detailAddress", s.getDetailAddress());
+                    intent.putExtra("id", s.getId());
+                    intent.putExtra("introduce", s.getIntroduce());
+                    intent.putExtra("phone", s.getPhone());
+                    intent.putExtra("positionIndex", s.getPositionIndex());
+                    intent.putExtra("storeName", s.getStoreName());
+                    intent.putExtra("totalSeat", s.getTotalSeat());
+                    intent.putExtra("type", s.getType());
+
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getContext(), "로그인이 필요한 서비스입니다.", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+
         marker.setPosition(loc);
         marker.setMap(this.naverMap);
         if(store.getType().equals("cafe")){        //카페
@@ -276,5 +310,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         marker.setCaptionText(store.getStoreName() + "\n" + "남은 자리 : " + String.valueOf(store.getTotalSeat()));
         marker.setCaptionTextSize(15);
+
     }
+
 }
