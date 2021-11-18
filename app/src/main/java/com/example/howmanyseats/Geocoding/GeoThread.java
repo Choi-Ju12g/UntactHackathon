@@ -10,12 +10,13 @@ import org.json.JSONObject;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 public class GeoThread extends Thread{
 
     Handler handler;
     boolean isRun = true;
-    String address = "";
+    public String address;
 
     public GeoThread(Handler handler){
         this.handler = handler;
@@ -25,6 +26,8 @@ public class GeoThread extends Thread{
         Geocode geo = new Geocode();
         Bundle bun = new Bundle();
         String response;
+
+
         try {
             response = geo.run(address);
             JSONObject json = new JSONObject(response);
@@ -41,7 +44,6 @@ public class GeoThread extends Thread{
 
             double address_lat = (double) jsonObject2.get("lat");
             double address_lng = (double) jsonObject2.get("lng");
-
 
             bun.putDouble("address_lat", address_lat);
             bun.putDouble("address_lng", address_lng);
