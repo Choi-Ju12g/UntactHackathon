@@ -26,10 +26,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.howmanyseats.DB.FirestoreStoreDB;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapView;
@@ -41,16 +45,18 @@ import com.naver.maps.map.util.FusedLocationSource;
 import com.naver.maps.map.widget.LocationButtonView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 import cz.msebera.android.httpclient.auth.AuthState;
 
 public class MainActivity extends AppCompatActivity{
-    //for test
+
+    //search 리스트, 어댑터
     private ArrayList<String> names;
     private SearchAdapter sa;
-    ArrayList<String> list;
-
+    private ArrayList<String> list;
 
     //뷰
     private MapView mapView;
@@ -61,16 +67,21 @@ public class MainActivity extends AppCompatActivity{
     private NavigationView navigationView;
     private EditText searchText;
 
-
     //파이어베이스
     private FirebaseAuth firebaseAuth;
-    //네이버 맵
+    private FirebaseUser user;
+    //private FirestoreStoreDB db;
 
+
+    //네이버 맵
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private FusedLocationSource locationSource;
     private NaverMap naverMap;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    //맵에 표시할 주소들
+    private Vector<Store> stores;
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -85,12 +96,17 @@ public class MainActivity extends AppCompatActivity{
         firebaseAuth=firebaseAuth.getInstance();
         Menu menu = navigationView.getMenu();
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        user = firebaseAuth.getCurrentUser();
 
+        //db에서 store가져오기
+//        stores = new Vector<>();
+//        db = new FirestoreStoreDB();
+//        stores = db.getAllStore();
 
+//        Log.v("test",stores.get(0).getAddress().toString());
         /////////////
-        names = new ArrayList<>();
-        list = new ArrayList<>();
+        names = new ArrayList<>();//식당이름들 db에서 받아와야함
+        list = new ArrayList<>();//검색된 리스트 뷰에 추가할 리스트
         names.add("이상윤");
         names.add("이기태");
         names.add("최정우");

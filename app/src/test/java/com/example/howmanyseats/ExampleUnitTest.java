@@ -2,6 +2,14 @@ package com.example.howmanyseats;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,8 +23,6 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        String str = "이상윤";
-        String s = "ㅌ";
-        Assert.assertEquals(str.contains(s),false);
+
     }
 }
