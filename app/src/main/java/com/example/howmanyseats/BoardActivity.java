@@ -62,7 +62,8 @@ public class BoardActivity extends AppCompatActivity {
         introduce = findViewById(R.id.introduce);
         introduce.setText(intent.getStringExtra("introduce"));
         totalSeats = findViewById(R.id.totalSeat);
-        totalSeats.setText("남은 자리 " + intent.getStringExtra("totalSeats"));
+
+        totalSeats.setText("남은 자리 " + intent.getStringExtra("totalSeat"));
         name = findViewById(R.id.name);
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
