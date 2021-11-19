@@ -2,28 +2,19 @@ package com.example.howmanyseats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +22,6 @@ import java.util.Map;
 public class LogupActivity extends AppCompatActivity {
 
     EditText editId,editEmail,editName, editPw, editPwConfirm;
-    Button btnLogin;
-    TextView txtResult;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
 
@@ -62,7 +51,7 @@ public class LogupActivity extends AppCompatActivity {
 
         Map<String, Object> user = new HashMap<>();
 
-        if(pw.equals(pwConfirm) && isValidPasswd() && isValidEmail()) {
+        if(pw.equals(pwConfirm) && isValidPasswd() && isValidEmail() && isValidName()) {
 
             firebaseAuth.createUserWithEmailAndPassword(email, pw).addOnCompleteListener(LogupActivity.this, new OnCompleteListener<AuthResult>() {
 
@@ -116,11 +105,9 @@ public class LogupActivity extends AppCompatActivity {
     private boolean isValidEmail() {
         if (editId.getText().toString().equals("")) {
             // 이메일 공백
-            Log.v("test","false");
             return false;
         }
         else {
-            Log.v("test","true");
             return true;
         }
     }
@@ -129,40 +116,20 @@ public class LogupActivity extends AppCompatActivity {
 
         if (editId.getText().toString().equals("")) {
             // 이메일 공백
-            Log.v("test","false");
             return false;
         }
         else {
-            Log.v("test","true");
             return true;
         }
-    }
-
-    private boolean isValidId(String id) {
-        boolean flag;
-        db = FirebaseFirestore.getInstance();
-
-
-        if (editId.getText().toString().equals("")) {
-            // 이메일 공백
-            Log.v("test","false");
-            return false;
-        }
-        else {  //id 중복처리
-           return true;
-        }
-
     }
 
     // 비밀번호 유효성 검사
     private boolean isValidPasswd() {
         if (editPw.getText().toString().equals("")) {
             // 비밀번호 공백
-            Log.v("test","false");
             return false;
         }
         else {
-            Log.v("test","true");
             return true;
         }
     }

@@ -111,7 +111,6 @@ public class Store {
         String businessName;
         String phone;
         String storeName;
-        StoreStruct storeStruct;
         List<String> positionIndex;
         Long totalSeat;
         String type;
