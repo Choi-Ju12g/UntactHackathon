@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        android:background="#000000">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#ffffff">
 
     <!-- 가게 이름 및 뒤로가기 버튼 -->
     <LinearLayout
@@ -38,7 +38,6 @@
 
     </LinearLayout>
 
-
     <!-- 가게 이름 및 스크롤 뷰 작성 -->
     <ScrollView
         android:layout_width="match_parent"
@@ -58,7 +57,7 @@
                 android:background="#ffffff"
                 android:padding="8dp"
                 android:layout_marginBottom="6dp">
-
+                <!-- 가게 기본 정보 1 : 위치-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,7 +79,7 @@
                         android:fontFamily="@font/cafe24ssurroundair"
                         android:id="@+id/address"/>
                 </LinearLayout>
-
+                <!-- 가게 기본 정보 2 : 번호-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,7 +101,7 @@
                         android:fontFamily="@font/cafe24ssurroundair"
                         android:id="@+id/phone"/>
                 </LinearLayout>
-
+                <!-- 가게 기본 정보 3 : 유형,소개-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -148,7 +147,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center"
-                android:padding="8dp"
                 android:layout_marginBottom="6dp"
                 android:background="#ffffff">
 
@@ -159,16 +157,25 @@
                     android:textSize="24dp"
                     android:textColor="#000000"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
                     android:fontFamily="@font/cafe24ssurroundair"/>
+
+
 
                 <RelativeLayout
                     android:id="@+id/uc_relativeCanvas"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp">
+                    android:layout_gravity="center"
 
+                    android:padding="4dp"
+
+                    android:background="@drawable/borderline">
 
                 </RelativeLayout>
+
+
 
 
                 <TextView
@@ -177,6 +184,8 @@
                     android:textColor="#000000"
                     android:textSize="20dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:fontFamily="@font/cafe24ssurroundair"
                     android:id="@+id/totalSeat"/>
 
@@ -223,7 +232,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#777777"
+                android:background="#ffffff"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -293,7 +302,6 @@
                     android:text="모든 후기 보기 >"
                     android:textColor="#000000"
                     android:background="#ffffff"
-                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/cafe24ssurroundair"/>
 
             </LinearLayout>

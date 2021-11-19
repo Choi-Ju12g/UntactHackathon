@@ -2,10 +2,10 @@ package com.example.howmanyseats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -20,11 +20,11 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.howmanyseats.Geocoding.GeoPointer;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,7 +37,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.util.ArrayList;
 
 public class BoardActivity extends AppCompatActivity {
@@ -70,6 +69,8 @@ public class BoardActivity extends AppCompatActivity {
         introduce = findViewById(R.id.introduce);
         introduce.setText(intent.getStringExtra("introduce"));
         totalSeats = findViewById(R.id.totalSeat);
+        //totalSeats.setText("남은 자리 " + intent.getStringExtra("totalSeat"));
+
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +79,7 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
 
-        totalSeats.setText("남은 자리 " + intent.getStringExtra("totalSeat"));
+
         name = findViewById(R.id.name);
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -110,34 +111,18 @@ public class BoardActivity extends AppCompatActivity {
         thing_list = intent.getStringArrayExtra("positionIndex");
         thing_cnt = thing_list.length;
         String[] r = new String[4];
+        int key = 0;
+        int left_table = 0;
         ArrayList<Thing> thingArrayList = new ArrayList<>();
-        //Log.d("ssibal","test"+Integer.toString(thing_cnt));
         for(int v = 0; v<thing_cnt;v++){
             r=customParser(thing_list[v]);
-            //Log.d("ssibal","test"+v+":"+r[0]+"/"+r[1]+"/"+r[2]+"/"+r[3]);
             thingArrayList.add(new Thing(r));
         }
 
-        /*
-        for(int v=0; v<thingArrayList.size();v++){
-            Log.d("ssibal","cont"+thingArrayList.get(v).getX()+" "+thingArrayList.get(0).getY()+" "+thingArrayList.get(0).type);
-        }*/
 
-        Display display = getWindowManager().getDefaultDisplay();
-        DisplayMetrics outMetrics = new DisplayMetrics ();
-        display.getMetrics(outMetrics);
-
-        float density = getResources().getDisplayMetrics().density;
-        float dpHeight = outMetrics.heightPixels / density;
-        float dpWidth = outMetrics.widthPixels / density;
-        System.out.println("dpWidth = " + dpWidth);
-        float rate = dpWidth/1440;
-        //System.out.println("raterate = " + rate);
-
-        for(int v=0; v<thingArrayList.size();v++){
-            thingArrayList.get(v).set_ratio_xy(rate);
-            Log.d("ssibal","cont"+thingArrayList.get(v).getX()+" "+thingArrayList.get(v).getY()+" "+thingArrayList.get(v).type);
-        }
+//        for(int v=0; v<thingArrayList.size();v++){
+//            Log.d("ssibal","cont"+thingArrayList.get(v).getX()+" "+thingArrayList.get(v).getY()+" "+thingArrayList.get(v).type);
+//        }
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.uc_relativeCanvas);
         for(int v=0; v<thingArrayList.size();v++){
@@ -146,27 +131,51 @@ public class BoardActivity extends AppCompatActivity {
             String filename = thingArrayList.get(v).getType();
             if(filename.equals("twotable24")){
                 v1.setImageResource(R.drawable.twotable24);
+                key = 0;
+                left_table++;
             }else if(filename.equals("twotable_using24")){
                 v1.setImageResource(R.drawable.twotable_using24);
+                key = 0;
+
             }else if(filename.equals("fourtable_using24")){
                 v1.setImageResource(R.drawable.fourtable_using24);
+                key = 0;
+
             }else if(filename.equals("fourtable24")){
                 v1.setImageResource(R.drawable.fourtable24);
+                key = 0;
+                left_table++;
             }else if(filename.equals("counter24")){
                 v1.setImageResource(R.drawable.counter24);
+                key = 1;
             }else if(filename.equals("door24")){
                 v1.setImageResource(R.drawable.door24);
+                key = 1;
             }else if(filename.equals("toilets24")){
                 v1.setImageResource(R.drawable.toilets24);
+                key = 1;
             }else if(filename.equals("kiosk24")){
                 v1.setImageResource(R.drawable.kiosk24);
+                key = 1;
             }
 
-            v1.setBackgroundColor(00000000);
-            v1.setPadding(thingArrayList.get(v).getX(),thingArrayList.get(v).getY(),0,0);
             relativeLayout.addView(v1);
-        }
+            RelativeLayout.LayoutParams parms = (RelativeLayout.LayoutParams) v1.getLayoutParams();
+            parms.leftMargin = thingArrayList.get(v).getX();
+            parms.topMargin = thingArrayList.get(v).getY();
+            if(key == 0){
+                parms.width = 150;
+                parms.height= 150;
+            }else{
+                parms.width = 100;
+                parms.height= 100;
+            }
 
+            v1.setLayoutParams(parms);
+            v1.setBackgroundColor(00000000);
+
+        }
+        totalSeats.setText("남은 자리 : " + Integer.toString(left_table));
 
         //
         // list view 화면 띄우기 addapter 이용
@@ -183,30 +192,6 @@ public class BoardActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-        //이미지 불러와서 설계도 올리기
-//        store_layout = (ImageView) findViewById(R.id.uc_store_layout);
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        StorageReference storageReference = storage.getReference();
-//        StorageReference pathReference = storageReference.child("layout");
-//        if(pathReference == null){
-//            Toast.makeText(BoardActivity.this, "저장소에 사진이 없습니다",Toast.LENGTH_SHORT).show();
-//
-//        }else{
-//            StorageReference submitProfile = storageReference.child("layout/storelayout.jfif");
-//            submitProfile.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                @Override
-//                public void onSuccess(Uri uri) {
-//                    Glide.with(BoardActivity.this).load(uri).into(store_layout);
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//
-//                }
-//            });
-//        }
     }
 
     public void initData(){
@@ -230,6 +215,24 @@ public class BoardActivity extends AppCompatActivity {
         String[] info = new String[4];
         info = a.split(",");
         return info;
+    }
+
+    public int dpToPx(int dp){
+        int px=0;
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics ();
+        display.getMetrics(outMetrics);
+        float density = getResources().getDisplayMetrics().density;
+
+        px = Math.round(dp*density);
+
+        return px;
+    }
+
+    public int Pxtodp(int px){
+        int dp = 0;
+
+        return dp;
     }
 
 

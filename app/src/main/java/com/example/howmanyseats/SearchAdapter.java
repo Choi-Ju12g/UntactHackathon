@@ -1,10 +1,12 @@
 package com.example.howmanyseats;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -45,6 +47,23 @@ public class SearchAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = LayoutInflater.from(context).inflate(R.layout.listview, null);
         TextView tv = v.findViewById(R.id.label);
+        ImageView img = v.findViewById(R.id.img);
+
+        switch (names.get(i).getType()){
+            case "cafe":
+                img.setImageResource(R.drawable.cafe);
+                break;
+            case "restaurant":
+                img.setImageResource(R.drawable.restaurant);
+                break;
+            case "bar":
+                img.setImageResource(R.drawable.soool);
+                break;
+            case "etc":
+                img.setImageResource(R.drawable.etc);
+                break;
+        }
+
         tv.setText(names.get(i).getStoreName());
         return v;
     }

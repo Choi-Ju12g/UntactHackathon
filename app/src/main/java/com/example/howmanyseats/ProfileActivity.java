@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView email, name, id;
+    private ImageView profile;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
@@ -30,7 +32,8 @@ public class ProfileActivity extends AppCompatActivity {
         email = findViewById(R.id.email_text);
         id = findViewById(R.id.id_text);
         name = findViewById(R.id.name_text);
-
+        profile = findViewById(R.id.myprofile);
+        profile.setImageResource(R.drawable.myprofille);
         DocumentReference docRef = db.collection("member").document(firebaseAuth.getCurrentUser().getEmail().toString());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -50,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         email.setText(firebaseAuth.getCurrentUser().getEmail().toString());
+
     }
 
 

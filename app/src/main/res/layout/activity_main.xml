@@ -6,7 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".MainActivity">
 
 
@@ -14,22 +13,37 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <include  layout="@layout/toolbar_main"/>
+        android:orientation="vertical"
+        >
+        <include  layout="@layout/toolbar_main" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_below="@+id/toolbar"
             android:id="@+id/search"
-
             android:singleLine="true"
             android:hint="검색어를 입력하세요"
             android:drawableLeft="@drawable/search"
+            android:paddingLeft="10dp"
             android:textColorHint="@color/black"
             android:textColor="@color/black"
             android:fontFamily="@font/cafe24ssurroundair"
-
+            android:background="@drawable/boreder"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="1dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:id="@+id/blank"
+            android:layout_above="@+id/listView"
+            android:visibility="invisible"
+            android:background="@drawable/edge"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             />
         <ListView
             android:id="@+id/listView"
@@ -37,6 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/search"
             tools:listitem="@layout/listview"
+            android:dividerHeight="0px"
+            android:divider="#FFFFFF"
             />
 
         <androidx.fragment.app.FragmentContainerView
@@ -44,7 +60,7 @@
             android:name="com.naver.maps.map.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/listView"
+            android:layout_below="@+id/toolbar"
             />
 
 

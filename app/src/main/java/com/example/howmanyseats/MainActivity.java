@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +21,10 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.howmanyseats.Geocoding.GeoPointer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -29,6 +32,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraUpdate;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
@@ -45,12 +51,20 @@ public class MainActivity extends AppCompatActivity{
     private Toolbar toolbar;
     private NavigationView navigationView;
     private EditText searchText;
-
+    private TextView blank;
     //파이어베이스
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
+    @Override
+    public void onBackPressed(){
+        if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        }
+        else{
 
+        }
+    }
     @Override
     public void onPause() {
         super.onPause();
@@ -59,7 +73,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public void onResume() {
         super.onResume();
-
+        //다시 메인화면으로 왔을때 맵 초기화 db에서 값 다시가져오게 하기
         map = new MapFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView, map).commit();
 
@@ -77,8 +91,15 @@ public class MainActivity extends AppCompatActivity{
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.navigation);
         searchText =findViewById(R.id.search);
+        blank = findViewById(R.id.blank);
+        blank.bringToFront();
+        navigationView.bringToFront();
+        searchText.bringToFront();
+
+
         firebaseAuth=firebaseAuth.getInstance();
         Menu menu = navigationView.getMenu();
+
 
         //db에서 store가져오기
         db = FirebaseFirestore.getInstance();
@@ -88,6 +109,7 @@ public class MainActivity extends AppCompatActivity{
 
 
         ListView listView = findViewById(R.id.listView);
+        listView.bringToFront();
         sa = new SearchAdapter(this, list);
 
         /////////
@@ -107,9 +129,7 @@ public class MainActivity extends AppCompatActivity{
                     MenuItem second = menu.findItem(R.id.action_logup);
                     second.setTitle("로그아웃");
                     second.setIcon(R.drawable.sign_out);
-                    MenuItem third = menu.findItem(R.id.action_test);
-                    third.setIcon(R.drawable.ic_baseline_person_add_24);
-                    third.setTitle("test");
+
                 }
                 //비로그인인 경우
                 else{
@@ -119,11 +139,10 @@ public class MainActivity extends AppCompatActivity{
                     MenuItem second = menu.findItem(R.id.action_logup);
                     second.setIcon(R.drawable.ic_baseline_person_add_24);
                     second.setTitle("회원가입");
-                    MenuItem third = menu.findItem(R.id.action_test);
-                    third.setIcon(R.drawable.ic_baseline_person_add_24);
-                    third.setTitle("test");
                 }
+
                 drawerLayout.openDrawer(GravityCompat.START);
+
             }
         });
 
@@ -154,9 +173,6 @@ public class MainActivity extends AppCompatActivity{
                         Toast.makeText(getApplicationContext(), "로그아웃", Toast.LENGTH_SHORT).show();
                     }
 
-                } else if (id == R.id.action_test){
-                    Intent intent = new Intent(getBaseContext(), BoardActivity.class);
-                    startActivity(intent);
                 }
                 DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -196,6 +212,33 @@ public class MainActivity extends AppCompatActivity{
                                     String text = searchText.getText().toString();
                                     search(text);
                                     listView.setAdapter(sa);
+
+                                    if(list.size() != 0){
+                                        blank.setVisibility(View.VISIBLE);
+                                        GeoPointer.OnGeoPointListener listener = new GeoPointer.OnGeoPointListener() {
+                                            @Override
+                                            public void onPoint(GeoPointer.Point[] p) {
+                                                int sCnt = 0, fCnt = 0;
+                                                for (GeoPointer.Point point : p) {
+                                                    if (point.havePoint) sCnt++;
+                                                    else fCnt++;
+                                                    CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(point.getY(),point.getX()));
+                                                    map.cameraUpdate(cameraUpdate);
+                                                }
+                                                Log.d("TEST_CODE", String.format("성공 : %s, 실패 : %s", sCnt, fCnt));
+                                            }
+
+                                            @Override
+                                            public void onProgress(int progress, int max) {
+                                                Log.d("TEST_CODE", String.format("좌표를 얻어오는중 %s / %s", progress, max));
+                                            }
+                                        };
+                                        GeoPointer geoPointer = new GeoPointer(getBaseContext(), listener);
+                                        geoPointer.execute(list.get(0).getAddress());
+                                    }
+                                    else{
+                                        blank.setVisibility(View.INVISIBLE);
+                                    }
                                 }
                             });
 
@@ -206,7 +249,6 @@ public class MainActivity extends AppCompatActivity{
                                     if(firebaseAuth.getCurrentUser() != null) {
 
                                         Intent intent = new Intent(getBaseContext(), BoardActivity.class);
-                                        Log.v("item posiotion : ", String.valueOf(adapterView.getSelectedItemPosition()));
                                         Store s = list.get(i);
 
                                         intent.putExtra("address", s.getAddress());
@@ -217,8 +259,9 @@ public class MainActivity extends AppCompatActivity{
                                         intent.putExtra("phone", s.getPhone());
                                         intent.putExtra("positionIndex", s.getPositionIndex());
                                         intent.putExtra("storeName", s.getStoreName());
-                                        intent.putExtra("totalSeat", s.getTotalSeat());
+                                        intent.putExtra("totalSeat", s.getTotalSeat().toString());
                                         intent.putExtra("type", s.getType());
+                                        Log.v("total Seat : ", s.getTotalSeat().toString());
 
                                         startActivity(intent);
                                     }

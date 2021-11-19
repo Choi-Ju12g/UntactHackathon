@@ -13,6 +13,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/myprofile"
                 android:layout_height="300dp"
                 android:layout_width="match_parent"
                 />

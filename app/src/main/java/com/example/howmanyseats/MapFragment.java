@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
@@ -181,8 +182,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         for (GeoPointer.Point point : p) {
                             if (point.havePoint) sCnt++;
                             else fCnt++;
-                            Log.d("TEST_CODE", point.toString());
-                            createMarker(new LatLng(point.getY(),point.getX()), finalStore);
+                            finalStore.setP(new LatLng(point.getY(),point.getX()));
+                            createMarker(new LatLng(point.getY(),point.getX()), finalStore,
+                                    finalStore.get_left_table_cnt(finalStore.getPositionIndex()));
                         }
                         Log.d("TEST_CODE", String.format("성공 : %s, 실패 : %s", sCnt, fCnt));
                     }
@@ -222,6 +224,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     {
         super.onStart();
         mapView.onStart();
+
     }
 
     @Override
@@ -266,27 +269,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView.onLowMemory();
     }
 
-    public void createMarker(LatLng loc, Store store){
+    public void createMarker(LatLng loc, Store store, int left_table){
         Marker marker = new Marker();
         marker.setOnClickListener(new Overlay.OnClickListener() {
 
-            Store s = store;
 
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
                 if(auth.getCurrentUser() != null) {
                     Intent intent = new Intent(getContext(), BoardActivity.class);
 
-                    intent.putExtra("address", s.getAddress());
-                    intent.putExtra("buisnessName", s.getBusinessName());
-                    intent.putExtra("detailAddress", s.getDetailAddress());
-                    intent.putExtra("id", s.getId());
-                    intent.putExtra("introduce", s.getIntroduce());
-                    intent.putExtra("phone", s.getPhone());
-                    intent.putExtra("positionIndex", s.getPositionIndex());
-                    intent.putExtra("storeName", s.getStoreName());
-                    intent.putExtra("totalSeat", s.getTotalSeat().toString());
-                    intent.putExtra("type", s.getType());
+                    intent.putExtra("address", store.getAddress());
+                    intent.putExtra("buisnessName", store.getBusinessName());
+                    intent.putExtra("detailAddress", store.getDetailAddress());
+                    intent.putExtra("id", store.getId());
+                    intent.putExtra("introduce", store.getIntroduce());
+                    intent.putExtra("phone", store.getPhone());
+                    intent.putExtra("positionIndex", store.getPositionIndex());
+                    intent.putExtra("storeName", store.getStoreName());
+                    intent.putExtra("totalSeat", store.getTotalSeat().toString());
+                    intent.putExtra("type", store.getType());
 
                     startActivity(intent);
                 }
@@ -307,17 +309,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             marker.setIcon(OverlayImage.fromResource(R.drawable.restaurant));
             marker.setIconTintColor(Color.RED);
         }
-        else if(store.getType().equals("sool")){       //주점
+        else if(store.getType().equals("bar")){       //주점
             marker.setIcon(OverlayImage.fromResource(R.drawable.soool));
             marker.setIconTintColor(Color.GREEN);
         }
+        else if(store.getType().equals("etc")){
+            marker.setIcon(OverlayImage.fromResource(R.drawable.etc));
+            marker.setIconTintColor(Color.YELLOW);
+        }
 
-        marker.setCaptionText(store.getStoreName() + "\n" + "남은 자리 : " + String.valueOf(store.getTotalSeat()));
+        //marker.setCaptionText(store.getStoreName() + "\n" + "남은 자리 : " + String.valueOf(store.getTotalSeat()));
+        marker.setCaptionText(store.getStoreName() + "\n" + "남은 자리 : " + left_table);
         marker.setCaptionTextSize(15);
 
     }
 
     public ArrayList<Store> getList() {
         return list;
+    }
+
+    public void cameraUpdate(CameraUpdate cm){
+        naverMap.moveCamera(cm);
+        Log.v("test",cm.toString());
     }
 }

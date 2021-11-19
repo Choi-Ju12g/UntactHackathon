@@ -29,17 +29,19 @@ public class Thing {
             }else{
                 this.type ="fourtable_using24";
             }
-        }else if(a[0].equals("counter")){
+        }else if(a[0].equals("counter") && a[3].equals("0")){
             this.type ="counter24";
-        }else if(a[0].equals("door")){
+        }else if(a[0].equals("door")&&a[3].equals("0")){
             this.type ="door24";
-        }else if(a[0].equals("wc")){
+        }else if(a[0].equals("wc")&&a[3].equals("0")){
             this.type ="toilets24";
-        }else if(a[0].equals("now")){
+        }else if(a[0].equals("now")&&a[3].equals("0")){
             this.type ="kiosk24";
+        }else{
+            this.type = null;
         }
-        this.x = Integer.parseInt(a[1]);
-        this.y = Integer.parseInt(a[2]);
+        this.x = Integer.parseInt(a[1])-220;
+        this.y = Integer.parseInt(a[2])-100;
     }
 
 
@@ -68,11 +70,6 @@ public class Thing {
     }
 
     public void connect_view(){
-
-    }
-
-    public void a(String[] list){
-        ArrayList<Thing> thingArrayList = new ArrayList<>();
 
     }
 
